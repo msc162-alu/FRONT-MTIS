@@ -1,0 +1,17 @@
+<h1 class="mb-4">Cambio de filtros</h1>
+<div class="card mb-4">
+  <div class="card-header">Resultado de la peticion</div>
+  <div class="card-body">
+    <div *ngIf="datos" class="alert alert-success" role="alert">
+      <pre class="brush: xml">{{datos}}</pre>
+    </div>
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+      <pre class="brush: xml">{{error}}</pre>
+    </div>
+  </div>
+</div>
+<hr>
+
+ <button class="btn btn-primary mt-2" (click)="comprobar()">Comprobar el filtro</button>
+
+<br>
