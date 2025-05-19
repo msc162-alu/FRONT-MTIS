@@ -1,0 +1,46 @@
+<h1 class="mb-4">Gestion de actas</h1>
+<div class="card mb-4">
+  <div class="card-header">Resultado de la peticion</div>
+  <div class="card-body">
+    <div *ngIf="datos" class="alert alert-success" role="alert">
+      <pre class="brush: xml">{{datos}}</pre>
+    </div>
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+      <pre class="brush: xml">{{error}}</pre>
+    </div>
+  </div>
+</div>
+<hr>
+
+<form #filtroForm="ngForm">
+    <div class="mb-3">
+        <label for="asignatura" class="form-label">Asignatura</label>
+        <input type="text" id="asignatura" name="asignatura" class="form-control" [(ngModel)]="asignatura" required>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="mb-3">
+                <label for="idProfesor" class="form-label">ID Profesor</label>
+                <input type="number" id="idProfesor" name="idProfesor" class="form-control" [(ngModel)]="idProfesor" required>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="mb-3">
+                <label for="idEstudiante" class="form-label">ID Estudiante</label>
+                <input type="number" id="idEstudiante" name="idEstudiante" class="form-control" [(ngModel)]="idEstudiante" required>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="mb-3">
+                <label for="nota" class="form-label">Nota</label>
+                <input type="number" id="nota" name="nota" class="form-control" [(ngModel)]="nota" required>
+            </div>
+        </div>
+        
+    </div>
+    
+</form>
+
+<button class="btn btn-primary mt-2" (click)="actas(asignatura, idProfesor, idEstudiante, nota)">Enviar</button>
+
+<br>

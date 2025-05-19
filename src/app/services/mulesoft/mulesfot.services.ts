@@ -18,5 +18,14 @@ export class MuleService {
     return this.http.get(url, { headers, responseType: 'text' }); 
   }
 
+  generarActa(asignatura: string, idProfesor: number, idEstudiante: number, nota: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // Especificamos que estamos enviando JSON
+    });
+
+    const url = `http://localhost:8081/actas?asignatura=${encodeURIComponent(asignatura)}&idProfesor=${encodeURIComponent(idProfesor)}&idEstudiante=${encodeURIComponent(idEstudiante)}&nota=${encodeURIComponent(nota)}`;
+    return this.http.get(url, { headers, responseType: 'text' });
+  }
+
   
 }
