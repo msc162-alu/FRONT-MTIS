@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ReservaService } from '../services/reserva/reserva.service';
+import { MuleService } from '../services/mulesoft/mulesfot.services';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-interface Aula {
+interface AulaDisponible {
   id: string;
   edificio: string;
   numero: string;
@@ -27,21 +27,43 @@ export class ReservaAulasComponent {
   
   mensajeExito: string = '';
   mensajeError: string = '';
-  aulasDisponibles: Aula[] = [];
+  aulasDisponibles: AulaDisponible[] = [];
 
-  constructor(private reservaService: ReservaService) {}
-
+  constructor(private muleService: MuleService) {}
   onSubmit() {
     this.mensajeExito = '';
     this.mensajeError = '';
     this.aulasDisponibles = [];
-
-    this.reservaService.reservarAula(this.idAula, this.inicio, this.fin, this.email)
+  
+    this.muleService.reservarAula(this.idAula, this.inicio, this.fin, this.email)
       .subscribe({
         next: (response) => {
-          if (response.aulas) {
+          if (response.aulas && response.aulas.length > 0) {
             this.mensajeError = response.mensaje;
-            this.aulasDisponibles = response.aulas;
+  
+            const aulasArray: AulaDisponible[] = [];
+  
+            // Recorremos TODAS las propiedades del objeto de response.aulas[0]
+            const rawAulas = response.aulas[0];
+  
+            for (const key in rawAulas) {
+              const aula = rawAulas[key];
+              // Evitar añadir cosas no válidas
+              if (aula && typeof aula === 'object' && 'id' in aula && 'numero' in aula) {
+                aulasArray.push({
+                  id: aula.id,
+                  edificio: aula.edificio,
+                  numero: aula.numero,
+                  capacidad: aula.capacidad,
+                  tieneProyector: aula.tieneProyector,
+                  tieneWifi: aula.tieneWifi
+                });
+              }
+            }
+  
+            // Aquí actualizas el array que la tabla va a mostrar
+            this.aulasDisponibles = aulasArray;
+  
           } else {
             this.mensajeExito = '✅ Reserva confirmada';
           }
@@ -51,4 +73,5 @@ export class ReservaAulasComponent {
         }
       });
   }
+  
 }

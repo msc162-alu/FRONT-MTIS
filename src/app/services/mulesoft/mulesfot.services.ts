@@ -27,5 +27,23 @@ export class MuleService {
     return this.http.get(url, { headers, responseType: 'text' });
   }
 
-  
+  reservarAula(idAula: number, inicio: string, fin: string, email: string): Observable<any> {
+    const url = `http://localhost:8081/reserva/${idAula}`;
+    
+    // Formatear las fechas para que Mule pueda procesarlas correctamente
+    const formattedInicio = new Date(inicio).toISOString().split('.')[0];
+    const formattedFin = new Date(fin).toISOString().split('.')[0];
+    
+    const body = {
+      inicio: formattedInicio,
+      fin: formattedFin,
+      email: email
+    };
+    
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post(url, body, { headers });
+  }
 }
