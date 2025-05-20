@@ -1,0 +1,106 @@
+<h1 class="mb-4">Expedición de Títulos</h1>
+<div class="card mb-4">
+
+<div class="results-section" *ngIf="datos || error">
+  <div class="card">
+    <div class="card-header">
+      <h3>Resultados</h3>
+    </div>
+    <div class="card-body">
+      <div class="response-data" *ngIf="datos">
+        <h4>Datos Recibidos:</h4>
+        <pre class="pre-formatted">{{ getDatosString() }}</pre>
+      </div>
+      <div class="response-error" *ngIf="error">
+        <h4>Error:</h4>
+        <pre class="pre-formatted error-text">{{ getErrorString() }}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        Listado de Solicitudes
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="filtroNifNie">NIF/NIE del Estudiante (opcional):</label>
+              <input type="text" id="filtroNifNie" class="form-control" [(ngModel)]="filtroNifNie">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="filtroEstado">Estado de la Solicitud (opcional):</label>
+              <select id="filtroEstado" class="form-control" [(ngModel)]="filtroEstado">
+                <option value="">Todos los estados</option>
+                <option *ngFor="let estado of estadosPosibles" [value]="estado">
+                  {{ estado }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-info mt-4" (click)="listarSolicitudes()">Listar Solicitudes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        Crear Solicitud de Título
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="idEstudianteTitulacion">ID Estudiante-Titulación:</label>
+              <input type="number" id="idEstudianteTitulacion" class="form-control" [(ngModel)]="idEstudianteTitulacion">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-success mt-4" (click)="crearSolicitud()">Crear Solicitud</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header bg-warning text-dark">
+        Expedir Título
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="idSolicitud">ID Solicitud:</label>
+              <input type="number" id="idSolicitud" class="form-control" [(ngModel)]="idSolicitud">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="numeroRegistro">Número de Registro:</label>
+              <input type="text" id="numeroRegistro" class="form-control" [(ngModel)]="numeroRegistro">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-warning mt-4" (click)="expedirTitulo()">Expedir Título</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
