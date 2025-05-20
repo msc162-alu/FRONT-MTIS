@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class MuleService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   comprobarFiltro(): Observable<any> {
     const headers = new HttpHeaders({
@@ -15,7 +15,7 @@ export class MuleService {
     });
 
     const url = 'http://localhost:8081/sensor';
-    return this.http.get(url, { headers, responseType: 'text' }); 
+    return this.http.get(url, { headers, responseType: 'text' });
   }
 
   generarActa(asignatura: string, idProfesor: number, idEstudiante: number, nota: number): Observable<any> {
@@ -24,6 +24,53 @@ export class MuleService {
     });
 
     const url = `http://localhost:8081/actas?asignatura=${encodeURIComponent(asignatura)}&idProfesor=${encodeURIComponent(idProfesor)}&idEstudiante=${encodeURIComponent(idEstudiante)}&nota=${encodeURIComponent(nota)}`;
+    return this.http.get(url, { headers, responseType: 'text' });
+  }
+
+  consultarEstudiante(nifnie: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const url = `http://localhost:8081/estudiantes/${encodeURIComponent(nifnie)}`;
+    return this.http.get(url, { headers, responseType: 'text' });
+  }
+
+  crearSolicitudTitulo(idEstudianteTitulacion: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const url = `http://localhost:8081/solicitudes?idEstudianteTitulacion=${encodeURIComponent(idEstudianteTitulacion)}`;
+    return this.http.get(url, { headers, responseType: 'text' });
+  }
+
+  listarSolicitudes(nifnie?: string, estado?: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    let url = `http://localhost:8081/solicitudes/listar`;
+
+    if (nifnie || estado) {
+      url += '?';
+      if (nifnie) {
+        url += `nifnie=${encodeURIComponent(nifnie)}`;
+      }
+      if (estado) {
+        url += nifnie ? `&estado=${encodeURIComponent(estado)}` : `estado=${encodeURIComponent(estado)}`;
+      }
+    }
+
+    return this.http.get(url, { headers, responseType: 'text' });
+  }
+
+  expedirTitulo(idSolicitud: number, numeroRegistro: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const url = `http://localhost:8081/titulos?idSolicitud=${encodeURIComponent(idSolicitud)}&numeroRegistro=${encodeURIComponent(numeroRegistro)}`;
     return this.http.get(url, { headers, responseType: 'text' });
   }
 
